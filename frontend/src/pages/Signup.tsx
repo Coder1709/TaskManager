@@ -50,27 +50,29 @@ export default function Signup() {
             <div className="w-full max-w-md">
                 {/* Logo */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl shadow-lg shadow-primary-500/30 mb-4">
-                        <UserPlus className="w-8 h-8 text-white" />
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl shadow-xl shadow-primary-500/20 mb-6 transform hover:scale-105 transition-transform duration-300">
+                        <UserPlus className="w-10 h-10 text-white" />
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
                     <p className="text-gray-500 mt-2">Join Lite Jira today</p>
                 </div>
 
                 {/* Form */}
-                <div className="card p-8">
+                <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 p-8 sm:p-10 border border-gray-100">
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                                 Full name
                             </label>
-                            <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <div className="relative group">
+                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-500 transition-colors">
+                                    <User className="w-5 h-5" />
+                                </div>
                                 <input
                                     id="name"
                                     type="text"
                                     required
-                                    className="input pl-11"
+                                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all outline-none"
                                     placeholder="John Doe"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -82,13 +84,15 @@ export default function Signup() {
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                                 Email address
                             </label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <div className="relative group">
+                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-500 transition-colors">
+                                    <Mail className="w-5 h-5" />
+                                </div>
                                 <input
                                     id="email"
                                     type="email"
                                     required
-                                    className="input pl-11"
+                                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all outline-none"
                                     placeholder="you@example.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -100,13 +104,15 @@ export default function Signup() {
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                                 Password
                             </label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <div className="relative group">
+                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-500 transition-colors">
+                                    <Lock className="w-5 h-5" />
+                                </div>
                                 <input
                                     id="password"
                                     type="password"
                                     required
-                                    className="input pl-11"
+                                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all outline-none"
                                     placeholder="Min. 8 characters"
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -118,13 +124,15 @@ export default function Signup() {
                             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
                                 Confirm password
                             </label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <div className="relative group">
+                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-500 transition-colors">
+                                    <Lock className="w-5 h-5" />
+                                </div>
                                 <input
                                     id="confirmPassword"
                                     type="password"
                                     required
-                                    className="input pl-11"
+                                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all outline-none"
                                     placeholder="Confirm your password"
                                     value={formData.confirmPassword}
                                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -135,7 +143,7 @@ export default function Signup() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn btn-primary w-full py-3"
+                            className="w-full py-3.5 px-4 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium rounded-xl shadow-lg shadow-primary-500/30 focus:ring-4 focus:ring-primary-500/30 transition-all transform active:scale-[0.98] flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <Loader2 className="w-5 h-5 animate-spin" />
