@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     Plus,
     Search,
-    Filter,
     Calendar,
     MessageSquare,
     Loader2,

@@ -5,7 +5,6 @@ import {
     Plus,
     FolderKanban,
     Users,
-    MoreHorizontal,
     Trash2,
     Loader2,
 } from 'lucide-react';

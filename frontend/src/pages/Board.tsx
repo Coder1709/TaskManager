@@ -13,7 +13,7 @@ import {
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useState } from 'react';
-import { ArrowLeft, Plus, Loader2, GripVertical } from 'lucide-react';
+import { ArrowLeft, Loader2, GripVertical } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { tasksApi, projectsApi } from '../services/api';
 import { Task, TaskStatus, Project } from '../types';
