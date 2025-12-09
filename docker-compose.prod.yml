@@ -52,7 +52,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.prod
       args:
-        - VITE_API_URL=https://${DOMAIN_NAME}/api
+        - VITE_API_URL=/api
     container_name: taskflow-frontend
     depends_on:
       - backend
