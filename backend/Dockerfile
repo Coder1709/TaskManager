@@ -2,20 +2,24 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
+# Install OpenSSL for Prisma
+RUN apk add --no-cache openssl
+
+# Copy package files and prisma schema
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install dependencies
-RUN npm ci
-
-# Copy source
-COPY . .
+# Install ALL dependencies (including devDependencies for build)
+RUN npm install
 
 # Generate Prisma client
 RUN npx prisma generate
 
-# Build
+# Copy source code
+COPY tsconfig.json ./
+COPY src ./src
+
+# Build TypeScript
 RUN npm run build
 
 # Production image
@@ -23,19 +27,28 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
+# Install OpenSSL for Prisma
+RUN apk add --no-cache openssl
+
 ENV NODE_ENV=production
 
-# Copy package files and install production dependencies
+# Copy package files
 COPY package*.json ./
 COPY prisma ./prisma/
-RUN npm ci --only=production && npx prisma generate
 
-# Copy built app
+# Install only production dependencies
+RUN npm ci --only=production
+
+# Generate Prisma client
+RUN npx prisma generate
+
+# Copy built app from builder
 COPY --from=builder /app/dist ./dist
 
 # Create non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 expressjs
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 expressjs
+
 USER expressjs
 
 EXPOSE 3000

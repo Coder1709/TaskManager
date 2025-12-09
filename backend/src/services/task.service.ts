@@ -323,13 +323,19 @@ class TaskService {
         const tasks = await prisma.task.findMany({
             where: {
                 projectId: { in: userProjects },
-                OR: [
-                    { assigneeId: userId },
-                    { reporterId: userId },
-                ],
-                OR: [
-                    { createdAt: { gte: startDate, lte: endDate } },
-                    { updatedAt: { gte: startDate, lte: endDate } },
+                AND: [
+                    {
+                        OR: [
+                            { assigneeId: userId },
+                            { reporterId: userId },
+                        ],
+                    },
+                    {
+                        OR: [
+                            { createdAt: { gte: startDate, lte: endDate } },
+                            { updatedAt: { gte: startDate, lte: endDate } },
+                        ],
+                    },
                 ],
             },
             include: this.getTaskInclude(),
