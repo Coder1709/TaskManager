@@ -10,7 +10,7 @@ echo "Starting SSL setup for $DOMAIN..."
 # 1. Request Certificate using Certbot (Nginx plugin or webroot mode)
 # Since Nginx is running and serving /.well-known/acme-challenge, we use webroot mode via the certbot container
 echo "Requesting Let's Encrypt certificate..."
-docker-compose -f $COMPOSE_FILE run --rm certbot certonly \
+docker compose -f $COMPOSE_FILE run --rm certbot certonly \
     --webroot \
     --webroot-path=/var/www/certbot \
     -d $DOMAIN \
@@ -43,6 +43,6 @@ fi
 
 # 3. Reload Nginx to apply changes
 echo "Reloading Nginx..."
-docker-compose -f $COMPOSE_FILE exec nginx nginx -s reload
+docker compose -f $COMPOSE_FILE exec nginx nginx -s reload
 
 echo "SSL Setup Complete! https://$DOMAIN should now be accessible."
