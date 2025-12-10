@@ -34,6 +34,7 @@ services:
       JWT_REFRESH_EXPIRY: 7d
       FRONTEND_URL: https://${DOMAIN_NAME}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       EMAIL_PROVIDER: ${EMAIL_PROVIDER:-smtp}
       EMAIL_FROM: ${EMAIL_FROM:-noreply@taskflow.com}
       SMTP_HOST: ${SMTP_HOST:-}
