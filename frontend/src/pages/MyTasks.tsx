@@ -80,7 +80,7 @@ export default function MyTasks() {
         createMutation.mutate({
             ...newTask,
             assigneeId: user?.id,
-            dueDate: newTask.dueDate || undefined,
+            dueDate: newTask.dueDate ? new Date(newTask.dueDate).toISOString() : undefined,
         });
     };
 
