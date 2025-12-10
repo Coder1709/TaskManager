@@ -13,6 +13,9 @@ import { schedulerService } from './services/scheduler.service';
 
 const app = express();
 
+// Trust proxy (required for rate limiting behind Nginx/Cloud Load Balancer)
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet());
 app.use(cors({
