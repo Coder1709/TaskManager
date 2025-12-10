@@ -10,7 +10,6 @@ import {
     Send,
     Loader2,
     MessageSquare,
-    Clock,
 } from 'lucide-react';
 import { format } from 'date-fns';
 import toast from 'react-hot-toast';
