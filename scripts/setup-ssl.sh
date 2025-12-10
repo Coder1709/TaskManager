@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration
-DOMAIN="taskamangers.in"
-EMAIL="admin@taskamangers.in" # Generic admin email
+DOMAIN="taskmanagers.in"
+EMAIL="admin@taskmanagers.in" # Generic admin email
 COMPOSE_FILE="docker-compose.prod.yml"
 
 echo "Starting SSL setup for $DOMAIN..."
