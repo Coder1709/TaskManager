@@ -11,6 +11,7 @@ import {
 import { tasksApi, projectsApi } from '../services/api';
 import { useAuthStore } from '../store/authStore';
 import { Task, Project } from '../types';
+import { SEO } from '../components/SEO';
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -77,6 +78,10 @@ export default function Dashboard() {
 
     return (
         <div className="space-y-8">
+            <SEO
+                title="Dashboard"
+                description="Overview of your tasks, projects, and productivity stats on TaskFlow."
+            />
             {/* Header */}
             <div>
                 <h1 className="text-2xl font-bold text-gray-900">
@@ -130,12 +135,12 @@ export default function Dashboard() {
                                         </div>
                                         <span
                                             className={`badge ${task.status === 'DONE'
-                                                    ? 'badge-done'
-                                                    : task.status === 'IN_PROGRESS'
-                                                        ? 'badge-in-progress'
-                                                        : task.status === 'IN_REVIEW'
-                                                            ? 'badge-in-review'
-                                                            : 'badge-backlog'
+                                                ? 'badge-done'
+                                                : task.status === 'IN_PROGRESS'
+                                                    ? 'badge-in-progress'
+                                                    : task.status === 'IN_REVIEW'
+                                                        ? 'badge-in-review'
+                                                        : 'badge-backlog'
                                                 }`}
                                         >
                                             {task.status.replace('_', ' ')}

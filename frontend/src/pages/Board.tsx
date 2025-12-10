@@ -20,6 +20,7 @@ import { Task, TaskStatus, Project } from '../types';
 import InviteMemberModal from '../components/InviteMemberModal';
 import TaskDetailsModal from '../components/TaskDetailsModal';
 import ManageMembersModal from '../components/ManageMembersModal';
+import { SEO } from '../components/SEO';
 
 const COLUMNS: { id: TaskStatus; title: string; color: string }[] = [
     { id: 'BACKLOG', title: 'Backlog', color: 'bg-gray-400' },
@@ -235,6 +236,10 @@ export default function Board() {
 
     return (
         <div className="space-y-6">
+            <SEO
+                title={project?.name || 'Board'}
+                description={`Manage tasks for ${project?.name || 'your project'} on TaskFlow.`}
+            />
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">

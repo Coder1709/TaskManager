@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authApi } from '../services/api';
+import { SEO } from '../components/SEO';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -47,6 +48,10 @@ export default function Signup() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 flex items-center justify-center p-4">
+            <SEO
+                title="Sign Up"
+                description="Join TaskFlow today. Create your account to start managing tasks, organizing projects, and boosting productivity."
+            />
             <div className="w-full max-w-md">
                 {/* Logo */}
                 <div className="text-center mb-8">

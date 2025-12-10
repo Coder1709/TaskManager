@@ -4,6 +4,7 @@ import { LogIn, Mail, Lock, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authApi } from '../services/api';
 import { useAuthStore } from '../store/authStore';
+import { SEO } from '../components/SEO';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -40,6 +41,10 @@ export default function Login() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 flex items-center justify-center p-4">
+            <SEO
+                title="Login"
+                description="Sign in to TaskFlow to manage your projects, track tasks, and collaborate with your team globally."
+            />
             <div className="w-full max-w-md">
                 {/* Logo */}
                 <div className="text-center mb-8">

@@ -42,11 +42,10 @@ JWT_ACCESS_SECRET=${JWT_ACCESS}
 JWT_REFRESH_SECRET=${JWT_REFRESH}
 
 # Google Gemini API Key
-GEMINI_API_KEY=AIzaSyDFX46Dn-aVLGo3HdeghYcbV1leG-4VbzY
+GEMINI_API_KEY=your-gemini-api-key-here
 
 # Email Configuration (SendGrid Recommended)
-# WARNING: You pasted a Google Key as your SendGrid Key. 
-# Please replace this with your real SendGrid key starting with "SG."
+# Key provided by user
 SENDGRID_API_KEY=your-sendgrid-api-key-here
 EMAIL_PROVIDER=sendgrid
 EMAIL_FROM=coderinashell@gmail.com
