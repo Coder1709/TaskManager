@@ -13,10 +13,13 @@ import {
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useState } from 'react';
-import { ArrowLeft, Loader2, GripVertical } from 'lucide-react';
+import { ArrowLeft, Loader2, GripVertical, UserPlus, Users } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { tasksApi, projectsApi } from '../services/api';
 import { Task, TaskStatus, Project } from '../types';
+import InviteMemberModal from '../components/InviteMemberModal';
+import TaskDetailsModal from '../components/TaskDetailsModal';
+import ManageMembersModal from '../components/ManageMembersModal';
 
 const COLUMNS: { id: TaskStatus; title: string; color: string }[] = [
     { id: 'BACKLOG', title: 'Backlog', color: 'bg-gray-400' },
@@ -29,9 +32,10 @@ const COLUMNS: { id: TaskStatus; title: string; color: string }[] = [
 interface TaskCardProps {
     task: Task;
     isDragging?: boolean;
+    onTaskClick?: (task: Task) => void;
 }
 
-function TaskCard({ task, isDragging }: TaskCardProps) {
+function TaskCard({ task, isDragging, onTaskClick }: TaskCardProps) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
         id: task.id,
         data: { task },
@@ -53,11 +57,17 @@ function TaskCard({ task, isDragging }: TaskCardProps) {
         <div
             ref={setNodeRef}
             style={style}
+            onClick={() => !isDragging && onTaskClick?.(task)}
             className={`bg-white border border-gray-200 rounded-lg p-3 shadow-sm border-l-4 ${priorityColors[task.priority]
-                } ${isDragging ? 'opacity-50' : ''}`}
+                } ${isDragging ? 'opacity-50' : 'hover:shadow-md cursor-pointer transition-shadow'}`}
         >
             <div className="flex items-start gap-2">
-                <button {...attributes} {...listeners} className="mt-1 cursor-grab active:cursor-grabbing">
+                <button
+                    {...attributes}
+                    {...listeners}
+                    className="mt-1 cursor-grab active:cursor-grabbing p-1 -ml-1 hover:bg-gray-100 rounded"
+                    onClick={(e) => e.stopPropagation()}
+                >
                     <GripVertical className="w-4 h-4 text-gray-400" />
                 </button>
                 <div className="flex-1 min-w-0">
@@ -92,9 +102,11 @@ function TaskCard({ task, isDragging }: TaskCardProps) {
 function Column({
     column,
     tasks,
+    onTaskClick,
 }: {
     column: (typeof COLUMNS)[0];
     tasks: Task[];
+    onTaskClick: (task: Task) => void;
 }) {
     return (
         <div className="flex flex-col w-72 flex-shrink-0">
@@ -109,7 +121,7 @@ function Column({
                 <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
                     <div className="space-y-2">
                         {tasks.map((task) => (
-                            <TaskCard key={task.id} task={task} />
+                            <TaskCard key={task.id} task={task} onTaskClick={onTaskClick} />
                         ))}
                     </div>
                 </SortableContext>
@@ -123,6 +135,9 @@ export default function Board() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const [activeTask, setActiveTask] = useState<Task | null>(null);
+    const [showInviteModal, setShowInviteModal] = useState(false);
+    const [showMembersModal, setShowMembersModal] = useState(false);
+    const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -221,13 +236,31 @@ export default function Board() {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex items-center gap-4">
-                <button onClick={() => navigate('/projects')} className="p-2 hover:bg-gray-100 rounded-lg">
-                    <ArrowLeft className="w-5 h-5 text-gray-600" />
-                </button>
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">{project?.name || 'Board'}</h1>
-                    <p className="text-gray-500">{project?.key}</p>
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <button onClick={() => navigate('/projects')} className="p-2 hover:bg-gray-100 rounded-lg">
+                        <ArrowLeft className="w-5 h-5 text-gray-600" />
+                    </button>
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900">{project?.name || 'Board'}</h1>
+                        <p className="text-gray-500">{project?.key}</p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => setShowMembersModal(true)}
+                        className="btn btn-secondary"
+                    >
+                        <Users className="w-5 h-5 mr-2" />
+                        Members
+                    </button>
+                    <button
+                        onClick={() => setShowInviteModal(true)}
+                        className="btn btn-primary"
+                    >
+                        <UserPlus className="w-5 h-5 mr-2" />
+                        Invite
+                    </button>
                 </div>
             </div>
 
@@ -240,13 +273,40 @@ export default function Board() {
             >
                 <div className="flex gap-4 overflow-x-auto pb-4">
                     {COLUMNS.map((column) => (
-                        <Column key={column.id} column={column} tasks={boardTasks[column.id]} />
+                        <Column
+                            key={column.id}
+                            column={column}
+                            tasks={boardTasks[column.id]}
+                            onTaskClick={(task) => setSelectedTaskId(task.id)}
+                        />
                     ))}
                 </div>
                 <DragOverlay>
                     {activeTask && <TaskCard task={activeTask} isDragging />}
                 </DragOverlay>
             </DndContext>
+
+            {showInviteModal && projectId && (
+                <InviteMemberModal
+                    projectId={projectId}
+                    onClose={() => setShowInviteModal(false)}
+                />
+            )}
+
+            {showMembersModal && projectId && (
+                <ManageMembersModal
+                    projectId={projectId}
+                    onClose={() => setShowMembersModal(false)}
+                />
+            )}
+
+            {selectedTaskId && projectId && (
+                <TaskDetailsModal
+                    taskId={selectedTaskId}
+                    projectId={projectId}
+                    onClose={() => setSelectedTaskId(null)}
+                />
+            )}
         </div>
     );
 }

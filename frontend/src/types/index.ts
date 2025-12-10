@@ -42,6 +42,7 @@ export interface Task {
     storyPoints?: number;
     orderIndex: number;
     project: Pick<Project, 'id' | 'name' | 'key'>;
+    assigneeId: string | null;
     assignee?: Pick<User, 'id' | 'name' | 'email'>;
     reporter: Pick<User, 'id' | 'name' | 'email'>;
     labels: Label[];
@@ -54,6 +55,7 @@ export interface Task {
 export interface Comment {
     id: string;
     content: string;
+    authorId: string;
     author: Pick<User, 'id' | 'name' | 'email'>;
     createdAt: string;
     updatedAt: string;

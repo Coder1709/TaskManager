@@ -7,6 +7,7 @@ import {
     Users,
     Trash2,
     Loader2,
+    Key,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { projectsApi } from '../services/api';
@@ -139,30 +140,36 @@ export default function Projects() {
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Project name
                                 </label>
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder="My Awesome Project"
-                                    value={newProject.name}
-                                    onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
-                                    required
-                                />
+                                <div className="relative">
+                                    <FolderKanban className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <input
+                                        type="text"
+                                        className="input pl-11"
+                                        placeholder="My Awesome Project"
+                                        value={newProject.name}
+                                        onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
+                                        required
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Project key
                                 </label>
-                                <input
-                                    type="text"
-                                    className="input uppercase"
-                                    placeholder="MAP"
-                                    maxLength={10}
-                                    value={newProject.key}
-                                    onChange={(e) =>
-                                        setNewProject({ ...newProject, key: e.target.value.toUpperCase() })
-                                    }
-                                    required
-                                />
+                                <div className="relative">
+                                    <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <input
+                                        type="text"
+                                        className="input pl-11 uppercase"
+                                        placeholder="MAP"
+                                        maxLength={10}
+                                        value={newProject.key}
+                                        onChange={(e) =>
+                                            setNewProject({ ...newProject, key: e.target.value.toUpperCase() })
+                                        }
+                                        required
+                                    />
+                                </div>
                                 <p className="text-xs text-gray-500 mt-1">
                                     Used as prefix for task IDs (e.g., MAP-1)
                                 </p>
